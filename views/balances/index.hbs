@@ -68,29 +68,21 @@
                 <tr>
                   <th scope="col">#</th>
                   <th scope="col">Coin</th>
-                  <th scope="col">Total</th>
                   <th scope="col">Held</th>
+                  <th scope="col">Available</th>
+                  <th scope="col">Total</th>
                 </tr>
               </thead>
               <tbody>
+              {{#each data}}
                 <tr>
-                  <th scope="row">1</th>
-                  <td>Mark</td>
-                  <td>Otto</td>
-                  <td>@mdo</td>
+                  <th scope="row">{{@index}}</th>
+                  <td>{{ this.coin}}</td>
+                  <td>{{ this.held }}</td>
+                  <td>{{ this.available }}</td>
+                  <td>{{ this.total}}</td>
                 </tr>
-                <tr>
-                  <th scope="row">2</th>
-                  <td>Jacob</td>
-                  <td>Thornton</td>
-                  <td>@fat</td>
-                </tr>
-                <tr>
-                  <th scope="row">3</th>
-                  <td>Larry</td>
-                  <td>the Bird</td>
-                  <td>@twitter</td>
-                </tr>
+            {{/each}}
               </tbody>
             </table>
         </div>

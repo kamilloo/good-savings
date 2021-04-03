@@ -9,5 +9,6 @@ export class AppController {
   @Get()
   root(@Res() res: Response) {
     return res.render(this.appService.getViewName(), { message: 'Hello Kamil!'});
+    // return res.json({ message: 'Hello Kamil!'});
   }
 }
