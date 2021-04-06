@@ -4,10 +4,13 @@ import { AppService } from './app.service';
 import { BalanceController } from './balance/balance.controller';
 import { BalanceService } from './balance/balance.service';
 import { ExchangeService } from './exchange/exchange.service';
+import { DashboardController } from './dashboard/dashboard.controller';
+import { DashboardService } from './dashboard/dashboard.service';
+import { TradingModule } from './trading/trading.module';
 
 @Module({
-  imports: [],
-  controllers: [AppController, BalanceController],
-  providers: [AppService, BalanceService, ExchangeService],
+  imports: [TradingModule],
+  controllers: [AppController, BalanceController, DashboardController],
+  providers: [AppService, BalanceService, ExchangeService, DashboardService],
 })
 export class AppModule {}

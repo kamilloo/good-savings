@@ -25,7 +25,7 @@ export class BalanceService {
                     accountBalance.push(coinBalanceDto)
                 }
             }
-            accountBalance;
+            return accountBalance;
         })
     }
 }
