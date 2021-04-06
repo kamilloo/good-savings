@@ -11,7 +11,7 @@ export class Selling extends Trading {
   private fillBuy: FillSell;
   private syncOrder: PlaceOrder;
 
-  private bounce:number = 2;
+  private bounce:number = 10;
 
 
 

@@ -37,7 +37,7 @@ export class ExchangeService extends EventEmitter{
 
     buy(symbol: string, limit:number, quantity:number):Promise<Order> {
         return new Promise<Order>((resolve, reject) => {
-            this.binance.buy(symbol, quantity, limit, {type:'LIMIT'}, (error, response) => {
+            this.binance.buy(symbol, quantity, limit + 2, {type:'LIMIT'}, (error, response) => {
                 if ( error ) return reject(error);
                 resolve(response);
             });
@@ -46,7 +46,7 @@ export class ExchangeService extends EventEmitter{
 
     sell(symbol: string, limit:number, quantity:number):Promise<Order> {
         return new Promise<Order>((resolve, reject) => {
-            this.binance.sell(symbol, quantity, limit, {type:'LIMIT'}, (error, response) => {
+            this.binance.sell(symbol, quantity, limit - 2, {type:'LIMIT'}, (error, response) => {
                 if ( error ) return reject(error);
                 resolve(response);
             });
