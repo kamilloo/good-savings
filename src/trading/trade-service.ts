@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import {ExchangeService} from "../exchange/exchange.service";
-import {Ticker} from "../models/Ticker";
-import {Trader} from "../models/Trader";
-import {Base} from "../models/Base";
-import {Quote} from "../models/Quote";
+import {Ticker} from "../models/ticker";
+import {Trader} from "../models/trader";
+import {Base} from "../models/base";
+import {Quote} from "../models/quote";
 
 @Injectable()
 export class TradeService {
@@ -17,11 +17,13 @@ export class TradeService {
     constructor(private readonly exchangeService:ExchangeService) {
         this.exchangeService.init()
         this.exchangeService.ticker(this.coin).then((ticker) => {})
+        this.initial()
 
     }
 
-    initial(trader:Trader){
-        this.trader = new Trader(new Quote(500, 50));
+    // initial(trader:Trader){
+    initial(){
+        this.trader = new Trader(new Base(632, 0.05));
 
         this.exchangeService.on('ticker', (ticker) => {
             this.trigger(ticker);

@@ -1,5 +1,5 @@
 import {ShouldBuy} from "./should.buy";
-import {Ticker} from "../Ticker";
+import {Ticker} from "../ticker";
 
 describe('Should buy', () => {
   let service: ShouldBuy;

@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { TradeService } from './trade-service';
 import {ExchangeService} from "../exchange/exchange.service";
-import {Ticker} from "../models/Ticker";
-import {Trader} from "../models/Trader";
-import {Quote} from "../models/Quote";
+import {Ticker} from "../models/ticker";
+import {Trader} from "../models/trader";
+import {Quote} from "../models/quote";
 
 describe('TradeService', () => {
   let provider: TradeService;

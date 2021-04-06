@@ -1,8 +1,8 @@
 import {Ticker} from "../ticker";
 
-export class ShouldBuy {
+export class ShouldSell {
 
     check(ticker:Ticker, limit:number):boolean{
-        return +ticker.close > limit;
+        return +ticker.close < limit;
     }
 }

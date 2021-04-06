@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import {CoinRateDto} from "../Dto/CoinRateDto";
 import {ExchangeService} from "../exchange/exchange.service";
-import {Ticker} from "../models/Ticker";
+import {Ticker} from "../models/ticker";
 
 @Injectable()
 export class DashboardService {

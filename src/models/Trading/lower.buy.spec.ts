@@ -1,5 +1,5 @@
 import {ShouldBuy} from "./should.buy";
-import {Ticker} from "../Ticker";
+import {Ticker} from "../ticker";
 import {LowerBuy} from "./lower.buy";
 
 describe('Lower buy', () => {

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import {ExchangeService} from "../exchange/exchange.service";
 import {CoinBalanceDto} from "../Dto/CoinBalanceDto";
 import {AccountBalance} from "../models/AccountBalance";
-import {CoinBalance} from "../models/CoinBalance";
+import {CoinBalance} from "../models/coin.balance";
 
 @Injectable()
 export class BalanceService {
