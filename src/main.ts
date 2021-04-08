@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
 import { static as expressStatic } from 'express';
+import * as exphbs from 'express-handlebars';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(
@@ -16,6 +17,13 @@ async function bootstrap() {
 
   app.useStaticAssets(join(__dirname, '..', 'public'));
   app.setBaseViewsDir(join(__dirname, '..', 'views'));
+
+
+  app.engine('hbs', exphbs({
+    defaultLayout: 'main',
+    extname: '.hbs'
+  }));
+
   app.setViewEngine('hbs');
 
   await app.listen(3000, () => {

@@ -1,0 +1,28 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Order Id</th>
+      <th scope="col">Symbol</th>
+      <th scope="col">Price</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Status</th>
+      <th scope="col">Type</th>
+      <th scope="col">Side</th>
+      <th scope="col">Time</th>
+    </tr>
+  </thead>
+  <tbody>
+  {{#each data.orders }}
+    <tr>
+      <th scope="row">{{ this.orderId }}</th>
+      <td>{{ this.symbol}}</td>
+      <td>{{ this.price }}</td>
+      <td>{{ this.origQty }}</td>
+      <td>{{ this.status}}</td>
+      <td>{{ this.type}}</td>
+      <td>{{ this.side}}</td>
+      <td>{{ this.updateTime}}</td>
+    </tr>
+{{/each}}
+  </tbody>
+</table>

@@ -4,6 +4,7 @@ import { AccountBalance } from '../models/AccountBalance';
 import {Ticker} from "../models/ticker";
 import events, {EventEmitter} from "events";
 import {Order} from "../models/order";
+import {Trade} from "../models/trade";
 
 @Injectable()
 export class ExchangeService extends EventEmitter{
@@ -58,6 +59,34 @@ export class ExchangeService extends EventEmitter{
             this.binance.orderStatus(symbol, orderId, (error, order, symbol) => {
                 if ( error ) return reject(error);
                 resolve(order.status);
+            });
+        })
+    }
+
+    orders(symbol: string):Promise<Order[]> {
+        return new Promise<Order[]>((resolve, reject) => {
+            this.binance.allOrders(symbol, (error, orders, symbol) => {
+                if (error) return reject(error);
+                resolve(orders);
+            });
+        })
+    }
+
+
+    openOrders(symbol: string):Promise<Order[]> {
+        return new Promise<Order[]>((resolve, reject) => {
+            this.binance.openOrders(symbol, (error, orders, symbol) => {
+                if (error) return reject(error);
+                resolve(orders);
+            });
+        })
+    }
+
+    trades(symbol: string):Promise<Trade[]> {
+        return new Promise<Trade[]>((resolve, reject) => {
+            this.binance.trades(symbol, (error, trades, symbol) => {
+                if (error) return reject(error);
+                resolve(trades);
             });
         })
     }

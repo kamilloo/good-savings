@@ -7,10 +7,12 @@ import { ExchangeService } from './exchange/exchange.service';
 import { DashboardController } from './dashboard/dashboard.controller';
 import { DashboardService } from './dashboard/dashboard.service';
 import { TradingModule } from './trading/trading.module';
+import {OrderController} from "./orders/order.controller";
+import {OrderService} from "./orders/order.service";
 
 @Module({
-  imports: [TradingModule],
-  controllers: [AppController, BalanceController, DashboardController],
-  providers: [AppService, BalanceService, ExchangeService, DashboardService],
+  // imports: [TradingModule],
+  controllers: [AppController, BalanceController, DashboardController, OrderController],
+  providers: [AppService, BalanceService, ExchangeService, DashboardService, OrderService],
 })
 export class AppModule {}
