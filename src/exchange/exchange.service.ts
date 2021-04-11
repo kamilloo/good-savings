@@ -13,7 +13,6 @@ export class ExchangeService extends EventEmitter{
     init(){
         const Binance = require('node-binance-api')
         this.binance = new Binance().options({
-
         });
     }
 
@@ -65,9 +64,13 @@ export class ExchangeService extends EventEmitter{
 
     orders(symbol: string):Promise<Order[]> {
         return new Promise<Order[]>((resolve, reject) => {
+            let startTime = Date.now() - 2*24*60*60*1000;
             this.binance.allOrders(symbol, (error, orders, symbol) => {
                 if (error) return reject(error);
                 resolve(orders);
+            }, {
+                startTime: startTime,
+                limit: 50,
             });
         })
     }
@@ -84,9 +87,13 @@ export class ExchangeService extends EventEmitter{
 
     trades(symbol: string):Promise<Trade[]> {
         return new Promise<Trade[]>((resolve, reject) => {
+            let startTime = Date.now() - 2*24*60*60*1000;
             this.binance.trades(symbol, (error, trades, symbol) => {
                 if (error) return reject(error);
                 resolve(trades);
+            }, {
+                startTime: startTime,
+                limit: 50,
             });
         })
     }
