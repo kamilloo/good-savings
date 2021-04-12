@@ -8,7 +8,7 @@ import {PlaceOrder} from "./Trading/place.order";
 export class Buying extends Trading {
   private fillBuy: FillBuy;
   private syncOrder: PlaceOrder;
-    private bounce:number = 10;
+    private bounce:number = 2;
 
     constructor(private order:Order) {
     super();

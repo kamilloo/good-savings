@@ -2,7 +2,7 @@ import {Ticker} from "../ticker";
 
 export class LowerBuy {
 
-    private bounce:number = 10;
+    private bounce:number = 4;
 
     check(ticker:Ticker, limit:number):number{
         if (+ticker.close + this.bounce < limit){
