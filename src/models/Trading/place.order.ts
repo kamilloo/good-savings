@@ -1,6 +1,7 @@
 import {Ticker} from "../ticker";
 import {Order} from "../order";
 import {ExchangeService} from "../../exchange/exchange.service";
+import {Trade} from "../trade";
 
 export class PlaceOrder {
 
@@ -34,6 +35,15 @@ export class PlaceOrder {
             .then((orderStatus) => {
                 order.status = orderStatus;
                 return order
+            }).then(order => exchange.trades(order.symbol))
+            .then((trades:Trade[]) => {
+                const trade = trades.find((trade, index) => {
+                    return trade.orderId == order.orderId
+                })
+                if (trade != undefined){
+                    order.price = trade.price
+                }
+                return order;
             });
             }
 }

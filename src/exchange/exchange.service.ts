@@ -87,7 +87,7 @@ export class ExchangeService extends EventEmitter{
 
     trades(symbol: string):Promise<Trade[]> {
         return new Promise<Trade[]>((resolve, reject) => {
-            let startTime = Date.now() - 2*24*60*60*1000;
+            let startTime = Date.now() - 12*60*60*1000;
             this.binance.trades(symbol, (error, trades, symbol) => {
                 if (error) return reject(error);
                 resolve(trades);
