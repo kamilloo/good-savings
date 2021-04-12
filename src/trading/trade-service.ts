@@ -23,7 +23,7 @@ export class TradeService {
 
     // initial(trader:Trader){
     initial(){
-        this.trader = new Trader(new Base(664, 0.04));
+        this.trader = new Trader(new Quote(671, 0.04));
 
         this.exchangeService.on('ticker', (ticker) => {
             this.trigger(ticker);
