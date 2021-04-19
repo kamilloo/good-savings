@@ -5,6 +5,7 @@ import {Ticker} from "../models/ticker";
 import events, {EventEmitter} from "events";
 import {Order} from "../models/order";
 import {Trade} from "../models/trade";
+import {Candle} from "../models/candle";
 
 @Injectable()
 export class ExchangeService extends EventEmitter{
@@ -94,6 +95,28 @@ export class ExchangeService extends EventEmitter{
             }, {
                 startTime: startTime,
                 limit: 50,
+            });
+        })
+    }
+
+    candles(symbol: string):Promise<Candle[]> {
+        return new Promise<Candle[]>((resolve, reject) => {
+            let startTime = Date.now() - 12*60*60*1000;
+            this.binance.candlestick(symbol, (error, trades, symbol) => {
+                if (error) return reject(error);
+                resolve(trades);
+            }, {
+                startTime: startTime,
+                limit: 50,
+            });
+        })
+    }
+
+    history(symbol: string):Promise<[string: Candle]> {
+        return new Promise<[string: Candle]>((resolve, reject) => {
+            let endTime = Date.now();
+            this.binance.websockets.chart(symbol,'1m', (symbol, interval, chart) => {
+                resolve(chart);
             });
         })
     }
