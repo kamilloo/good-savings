@@ -4,6 +4,7 @@ import {Ticker} from "../models/ticker";
 import {Trader} from "../models/trader";
 import {Base} from "../models/base";
 import {Quote} from "../models/quote";
+import {Candle} from "../models/candle";
 
 @Injectable()
 export class TradeService {
@@ -14,9 +15,12 @@ export class TradeService {
 
     private trader:Trader;
 
+    private candles: Candle[] = [];
+
     constructor(private readonly exchangeService:ExchangeService) {
         this.exchangeService.init()
         this.exchangeService.ticker(this.coin).then((ticker) => {})
+        this.exchangeService.candles(this.coin).then((candlestick) => {})
         this.initial()
 
     }
@@ -26,7 +30,19 @@ export class TradeService {
         this.trader = new Trader(new Quote(671, 0.04));
 
         this.exchangeService.on('ticker', (ticker) => {
-            this.trigger(ticker);
+            // this.trigger(ticker);
+        })
+
+        this.exchangeService.history(this.coin).then((history:[string: Candle]) => {
+            for (const time in history) {
+                this.candles.push(history[time])
+                candle.time = +time;
+            }
+        })
+
+        this.exchangeService.on('candlesticks', (candlesticks) => {
+            this.candles.push(candlesticks)
+            console.log(candlesticks)
         })
     }
 

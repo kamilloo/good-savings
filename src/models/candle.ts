@@ -15,6 +15,7 @@ export interface Candle {
   low: string;
   close: string;
   volume: string;
+  time: number;
 }
 
 
