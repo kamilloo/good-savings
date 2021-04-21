@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import {ExchangeService} from "../exchange/exchange.service";
+import { ExchangeService } from '../exchange/exchange.service';
 import {Ticker} from "../models/ticker";
 import {Trader} from "../models/trader";
-import {Base} from "../models/base";
 import {Quote} from "../models/quote";
 import {Candle} from "../models/candle";
+import {Candlestick} from "../models/candlestick";
 
 @Injectable()
 export class TradeService {
@@ -30,18 +30,19 @@ export class TradeService {
         this.trader = new Trader(new Quote(671, 0.04));
 
         this.exchangeService.on('ticker', (ticker) => {
-            // this.trigger(ticker);
+            this.trigger(ticker);
         })
 
         this.exchangeService.history(this.coin).then((history:[string: Candle]) => {
             for (const time in history) {
-                this.candles.push(history[time])
+                let candle:Candle = history[time];
                 candle.time = +time;
+                this.candles.push(candle)
             }
         })
 
-        this.exchangeService.on('candlesticks', (candlesticks) => {
-            this.candles.push(candlesticks)
+        this.exchangeService.on('candlesticks', (candlesticks:Candlestick) => {
+            // this.candles.push(candlesticks)
             console.log(candlesticks)
         })
     }

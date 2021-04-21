@@ -5,7 +5,7 @@ import {Ticker} from "../models/ticker";
 import {Trader} from "../models/trader";
 import {Quote} from "../models/quote";
 
-describe('TradeService', () => {
+describe('CandleRepository', () => {
   let provider: TradeService;
 
   let exchangeService:ExchangeService;
@@ -30,7 +30,17 @@ describe('TradeService', () => {
 
     initDepedencies()
 
-    provider = new TradeService(exchangeService);
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [TradeService,
+        {
+          provide: ExchangeService,
+          useValue: exchangeService,
+        },
+
+      ],
+    }).compile();
+
+    provider = module.get<TradeService>(TradeService);
   });
 
   it('should be defined', () => {
