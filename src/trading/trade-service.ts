@@ -6,6 +6,7 @@ import { Quote } from '../models/quote';
 import { Candle } from '../models/candle';
 import { Candlestick } from '../models/candlestick';
 import { CandleRepository } from './repositories/candle.repository';
+import { EventType } from '../models/Enums/event.type';
 
 @Injectable()
 export class TradeService {
@@ -27,10 +28,10 @@ export class TradeService {
 
   // initial(trader:Trader){
   initial() {
-    this.trader = new Trader(new Quote(671, 0.04));
+    this.trader = new Trader(new Quote(671, 0.04, this.candleRepository));
 
     this.exchangeService.on('ticker', (ticker) => {
-      this.trigger(ticker);
+      // this.trigger(ticker);
     });
 
     this.exchangeService
@@ -44,11 +45,17 @@ export class TradeService {
       });
 
     this.exchangeService.on('candlesticks', (candlestick: Candlestick) => {
-      this.candleRepository.addCandlestick(candlestick);
+      if (this.isCandleStick(candlestick)) {
+        this.candleRepository.addCandlestick(candlestick);
+      }
     });
   }
 
   trigger(ticker: Ticker) {
     this.trader.call(ticker);
+  }
+
+  private isCandleStick(candlestick: Candlestick): boolean {
+    return candlestick.e == EventType.KLINE;
   }
 }

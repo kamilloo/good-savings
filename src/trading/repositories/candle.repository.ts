@@ -35,11 +35,15 @@ export class CandleRepository {
       }
     }
     this.candles.push(candle);
+    if (this.candles.length > 500) {
+      this.candles.shift();
+    }
     return true;
   }
 
   addCandlestick(candlestick: Candlestick): boolean {
     const candle = this.transformToCandle(candlestick);
+    console.log(this.candles.length);
     return this.addCandle(candle);
   }
 
