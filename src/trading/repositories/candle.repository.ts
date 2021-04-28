@@ -43,7 +43,6 @@ export class CandleRepository {
 
   addCandlestick(candlestick: Candlestick): boolean {
     const candle = this.transformToCandle(candlestick);
-    console.log(this.candles.length);
     return this.addCandle(candle);
   }
 
@@ -51,13 +50,17 @@ export class CandleRepository {
     const interval = this.interval * 1000;
     const factor = Math.floor(+candlestick.E / interval);
     const time = factor * interval;
+    const open = candlestick.k.o;
+    const close = candlestick.k.c;
     return <Candle>{
-      open: candlestick.k.o,
+      open: open,
       high: candlestick.k.h,
       low: candlestick.k.l,
-      close: candlestick.k.c,
+      close: close,
       volume: candlestick.k.v,
       time: time,
+      isFinal: candlestick.k.q,
+      isBullish: +close - +open > 0,
     };
   }
 }

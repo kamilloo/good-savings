@@ -31,7 +31,7 @@ export class TradeService {
     this.trader = new Trader(new Quote(671, 0.04, this.candleRepository));
 
     this.exchangeService.on('ticker', (ticker) => {
-      // this.trigger(ticker);
+      this.trigger(ticker);
     });
 
     this.exchangeService
@@ -40,6 +40,8 @@ export class TradeService {
         for (const time in history) {
           const candle: Candle = history[time];
           candle.time = +time;
+          candle.isFinal = true;
+          candle.isBullish = +candle.close - +candle.open > 0;
           this.candleRepository.addCandle(candle);
         }
       });

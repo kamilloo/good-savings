@@ -16,19 +16,15 @@
 
  */
 export interface CandlestickPayload {
-  o:string;
-  h:string;
-  l:string;
-  c:string;
-  v:string;
-  n:string;
-  i:string;
-  x:string;
-  q:string;
-  V:string;
-  Q:string;
+  o: string;
+  h: string;
+  l: string;
+  c: string;
+  v: string;
+  n: string;
+  i: string;
+  x: string;
+  q: boolean;
+  V: string;
+  Q: string;
 }
-
-
-
-
