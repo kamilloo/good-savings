@@ -1,14 +1,15 @@
 import { PinBar } from './pin.bar';
 import { Candle } from '../../../candle';
 import { Ticker } from '../../../ticker';
+import { InsideBar } from './inside.bar';
 
-describe('selling pin bar', () => {
+describe('buying inside bar', () => {
   let trend: PinBar;
   let candles: Candle[] = [];
-  const ticker: Ticker = { close: '1' };
+  const ticker: Ticker = { close: '10' };
 
   beforeEach(async () => {
-    trend = new PinBar();
+    trend = new InsideBar();
   });
 
   it('not bearish found', () => {
@@ -25,9 +26,9 @@ describe('selling pin bar', () => {
     expect(checked).toBeFalsy();
   });
 
-  it('one before previous candle was bearich', () => {
+  it('breakout candle not found', () => {
     candles = [
-      createBearish('3', '4', '1', '2'),
+      createBullish('2', '4', '1', '3'),
       createBullish('2', '4', '1', '3'),
       createNotFinalCandle(),
     ];
@@ -36,10 +37,10 @@ describe('selling pin bar', () => {
     expect(checked).toBeFalsy();
   });
 
-  it('previous on close above one before previous candle', () => {
+  it('breakout candle found but wasnt bullish mother bar', () => {
     candles = [
-      createBullish('3', '4', '1', '2'),
-      createBullish('2', '4', '1', '5'),
+      createBearish('6', '9', '1', '4'),
+      createBullish('4', '4', '4', '4'),
       createNotFinalCandle(),
     ];
     const checked = trend.check(candles, ticker);
@@ -47,10 +48,11 @@ describe('selling pin bar', () => {
     expect(checked).toBeFalsy();
   });
 
-  it('pin bar not found in bullish', () => {
+  it('breakout candle found but wasnt mother bar', () => {
     candles = [
-      createBullish('300', '400', '250', '280'),
-      createBullish('255', '350', '200', '290'),
+      createBullish('4', '11', '1', '6'),
+      createBullish('4', '9', '2', '6'),
+      createBullish('4', '4', '1', '4'),
       createNotFinalCandle(),
     ];
     const checked = trend.check(candles, ticker);
@@ -58,10 +60,10 @@ describe('selling pin bar', () => {
     expect(checked).toBeFalsy();
   });
 
-  it('pin bar not found in bearisch', () => {
+  it('breakout candle found as last one', () => {
     candles = [
-      createBullish('300', '400', '250', '280'),
-      createBullish('290', '350', '200', '260'),
+      createBullish('4', '11', '1', '6'),
+      createBullish('4', '11', '1', '6'),
       createNotFinalCandle(),
     ];
     const checked = trend.check(candles, ticker);
@@ -69,10 +71,22 @@ describe('selling pin bar', () => {
     expect(checked).toBeFalsy();
   });
 
-  it('pin bar found in bullish', () => {
+  it('mother bar found as last one', () => {
     candles = [
-      createBullish('300', '400', '250', '280'),
-      createBullish('280', '450', '200', '290'),
+      createBullish('4', '11', '1', '6'),
+      createBullish('4', '9', '1', '6'),
+      createNotFinalCandle(),
+    ];
+    const checked = trend.check(candles, ticker);
+
+    expect(checked).toBeFalsy();
+  });
+
+  it('inside bar found', () => {
+    candles = [
+      createBullish('4', '11', '1', '6'),
+      createBullish('4', '9', '1', '6'),
+      createBullish('4', '4', '4', '4'),
       createNotFinalCandle(),
     ];
     const checked = trend.check(candles, ticker);
@@ -80,21 +94,25 @@ describe('selling pin bar', () => {
     expect(checked).toBeTruthy();
   });
 
-  it('pin bar found in bearish', () => {
+  it('inside bar not found', () => {
     candles = [
-      createBullish('300', '400', '250', '280'),
-      createBearish('290', '450', '200', '280'),
+      createBullish('4', '11', '1', '6'),
+      createBullish('4', '8', '2', '6'),
+      createBullish('4', '4', '4', '4'),
+      createBullish('4', '4', '1', '4'),
       createNotFinalCandle(),
     ];
     const checked = trend.check(candles, ticker);
 
-    expect(checked).toBeTruthy();
+    expect(checked).toBeFalsy();
   });
 
-  it('pin low not enough', () => {
+  it('inside bar not found 2', () => {
     candles = [
-      createBullish('300', '400', '250', '280'),
-      createBullish('280', '350', '240', '290'),
+      createBullish('4', '11', '1', '6'),
+      createBullish('4', '8', '2', '6'),
+      createBullish('4', '4', '1', '4'),
+      createBullish('4', '4', '4', '4'),
       createNotFinalCandle(),
     ];
     const checked = trend.check(candles, ticker);

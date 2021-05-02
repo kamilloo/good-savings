@@ -2,9 +2,10 @@ import { Ticker } from '../ticker';
 import { CandleRepository } from '../../trading/repositories/candle.repository';
 import { Trend } from './trends/trend';
 import { PinBar } from './trends/buying/pin.bar';
+import { Buob } from './trends/buying/buob';
 
 export class ShouldBuy {
-  private schemas: Trend[] = [new PinBar()];
+  private schemas: Trend[] = [new PinBar(), new Buob()];
   private goTrade = false;
   constructor(private candleRepository: CandleRepository) {}
 
@@ -13,7 +14,7 @@ export class ShouldBuy {
     if (candles.length > 3) {
       this.schemas.forEach((schema: Trend) => {
         if (!this.goTrade) {
-          this.goTrade = schema.check(candles);
+          this.goTrade = schema.check(candles, ticker);
         }
       });
     }

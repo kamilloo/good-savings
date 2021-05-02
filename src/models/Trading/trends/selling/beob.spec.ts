@@ -1,14 +1,15 @@
 import { PinBar } from './pin.bar';
 import { Candle } from '../../../candle';
+import { Beob } from './beob';
 import { Ticker } from '../../../ticker';
 
-describe('selling pin bar', () => {
-  let trend: PinBar;
+describe('selling beob', () => {
+  let trend: Beob;
   let candles: Candle[] = [];
   const ticker: Ticker = { close: '1' };
 
   beforeEach(async () => {
-    trend = new PinBar();
+    trend = new Beob();
   });
 
   it('not bearish found', () => {
@@ -36,10 +37,10 @@ describe('selling pin bar', () => {
     expect(checked).toBeFalsy();
   });
 
-  it('previous on close above one before previous candle', () => {
+  it('previous has lower high than one before previous candle', () => {
     candles = [
       createBullish('3', '4', '1', '2'),
-      createBullish('2', '4', '1', '5'),
+      createBearish('6', '10', '1', '1'),
       createNotFinalCandle(),
     ];
     const checked = trend.check(candles, ticker);
@@ -47,10 +48,10 @@ describe('selling pin bar', () => {
     expect(checked).toBeFalsy();
   });
 
-  it('pin bar not found in bullish', () => {
+  it('previous has lower low than one before previous candle', () => {
     candles = [
-      createBullish('300', '400', '250', '280'),
-      createBullish('255', '350', '200', '290'),
+      createBullish('300', '400', '200', '280'),
+      createBearish('500', '500', '250', '200'),
       createNotFinalCandle(),
     ];
     const checked = trend.check(candles, ticker);
@@ -58,10 +59,10 @@ describe('selling pin bar', () => {
     expect(checked).toBeFalsy();
   });
 
-  it('pin bar not found in bearisch', () => {
+  it('beob not found in bearisch', () => {
     candles = [
       createBullish('300', '400', '250', '280'),
-      createBullish('290', '350', '200', '260'),
+      createBullish('250', '500', '200', '260'),
       createNotFinalCandle(),
     ];
     const checked = trend.check(candles, ticker);
@@ -69,18 +70,7 @@ describe('selling pin bar', () => {
     expect(checked).toBeFalsy();
   });
 
-  it('pin bar found in bullish', () => {
-    candles = [
-      createBullish('300', '400', '250', '280'),
-      createBullish('280', '450', '200', '290'),
-      createNotFinalCandle(),
-    ];
-    const checked = trend.check(candles, ticker);
-
-    expect(checked).toBeTruthy();
-  });
-
-  it('pin bar found in bearish', () => {
+  it('beob found in bearish', () => {
     candles = [
       createBullish('300', '400', '250', '280'),
       createBearish('290', '450', '200', '280'),
@@ -89,17 +79,6 @@ describe('selling pin bar', () => {
     const checked = trend.check(candles, ticker);
 
     expect(checked).toBeTruthy();
-  });
-
-  it('pin low not enough', () => {
-    candles = [
-      createBullish('300', '400', '250', '280'),
-      createBullish('280', '350', '240', '290'),
-      createNotFinalCandle(),
-    ];
-    const checked = trend.check(candles, ticker);
-
-    expect(checked).toBeFalsy();
   });
 
   function createBearish(

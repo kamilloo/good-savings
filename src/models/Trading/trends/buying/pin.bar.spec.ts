@@ -1,9 +1,11 @@
 import { PinBar } from './pin.bar';
 import { Candle } from '../../../candle';
+import { Ticker } from '../../../ticker';
 
 describe('buying pin bar', () => {
   let trend: PinBar;
   let candles: Candle[] = [];
+  const ticker: Ticker = { close: '1' };
 
   beforeEach(async () => {
     trend = new PinBar();
@@ -11,14 +13,14 @@ describe('buying pin bar', () => {
 
   it('not bearish found', () => {
     candles = [];
-    const checked = trend.check(candles);
+    const checked = trend.check(candles, ticker);
 
     expect(checked).toBeFalsy();
   });
 
   it('last is final', () => {
     candles = [createBullish('2', '4', '1', '3')];
-    const checked = trend.check(candles);
+    const checked = trend.check(candles, ticker);
 
     expect(checked).toBeFalsy();
   });
@@ -29,7 +31,7 @@ describe('buying pin bar', () => {
       createBullish('2', '4', '1', '3'),
       createNotFinalCandle(),
     ];
-    const checked = trend.check(candles);
+    const checked = trend.check(candles, ticker);
 
     expect(checked).toBeFalsy();
   });
@@ -40,7 +42,7 @@ describe('buying pin bar', () => {
       createBullish('255', '350', '200', '290'),
       createNotFinalCandle(),
     ];
-    const checked = trend.check(candles);
+    const checked = trend.check(candles, ticker);
 
     expect(checked).toBeFalsy();
   });
@@ -51,7 +53,7 @@ describe('buying pin bar', () => {
       createBullish('290', '350', '200', '260'),
       createNotFinalCandle(),
     ];
-    const checked = trend.check(candles);
+    const checked = trend.check(candles, ticker);
 
     expect(checked).toBeFalsy();
   });
@@ -62,7 +64,7 @@ describe('buying pin bar', () => {
       createBullish('280', '350', '200', '290'),
       createNotFinalCandle(),
     ];
-    const checked = trend.check(candles);
+    const checked = trend.check(candles, ticker);
 
     expect(checked).toBeTruthy();
   });
@@ -73,7 +75,7 @@ describe('buying pin bar', () => {
       createBearish('290', '350', '200', '280'),
       createNotFinalCandle(),
     ];
-    const checked = trend.check(candles);
+    const checked = trend.check(candles, ticker);
 
     expect(checked).toBeTruthy();
   });
@@ -84,7 +86,7 @@ describe('buying pin bar', () => {
       createBullish('280', '350', '250', '290'),
       createNotFinalCandle(),
     ];
-    const checked = trend.check(candles);
+    const checked = trend.check(candles, ticker);
 
     expect(checked).toBeFalsy();
   });

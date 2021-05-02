@@ -2,7 +2,7 @@ import { Trend } from '../trend';
 import { Candle } from '../../../candle';
 import { Ticker } from '../../../ticker';
 
-export class PinBar implements Trend {
+export class Beob implements Trend {
   check(candles: Candle[], ticker: Ticker): boolean {
     if (candles.length < 3) {
       return false;
@@ -14,18 +14,15 @@ export class PinBar implements Trend {
     const oneBeforePreviousCandle = candles[candles.length - 3];
     const previousCandle = candles[candles.length - 2];
 
-    if (oneBeforePreviousCandle.isBullish) {
+    if (!oneBeforePreviousCandle.isBullish) {
       return false;
     }
 
-    if (previousCandle.close <= oneBeforePreviousCandle.low) {
+    if (previousCandle.isBullish) {
       return false;
     }
 
-    const bar = Number(
-      (+previousCandle.open / +previousCandle.close).toFixed(2),
-    );
-    if (bar < 0.95 || bar > 1.05) {
+    if (previousCandle.high <= oneBeforePreviousCandle.high) {
       return false;
     }
 
@@ -33,11 +30,6 @@ export class PinBar implements Trend {
       return false;
     }
 
-    //0. has last not final
-    //1. 2 previuos was bearish
-    //2. 1 previous went down
-    // 3.close near 2 previous candle
-    // 4. price went go above 1 preveios hi
     return true;
   }
 }

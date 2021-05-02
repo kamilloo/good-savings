@@ -1,8 +1,9 @@
 import { Trend } from '../trend';
 import { Candle } from '../../../candle';
+import { Ticker } from '../../../ticker';
 
 export class PinBar implements Trend {
-  check(candles: Candle[]): boolean {
+  check(candles: Candle[], ticker: Ticker): boolean {
     if (candles.length < 3) {
       return false;
     }
