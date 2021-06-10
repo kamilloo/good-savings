@@ -1,7 +1,7 @@
 import {Controller, Get, Res} from '@nestjs/common';
 import {Response} from "express";
 import {DashboardService} from "./dashboard.service";
-import {CoinRateDto} from "../Dto/CoinRateDto";
+import {CoinRateDto} from "../dto/CoinRateDto";
 
 @Controller('dashboard')
 export class DashboardController {

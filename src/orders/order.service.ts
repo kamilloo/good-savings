@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import {ExchangeService} from "../exchange/exchange.service";
-import {CoinBalanceDto} from "../Dto/CoinBalanceDto";
+import {CoinBalanceDto} from "../dto/CoinBalanceDto";
 import {AccountBalance} from "../models/AccountBalance";
 import {CoinBalance} from "../models/coin.balance";
 import {Order} from "../models/order";

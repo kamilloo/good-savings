@@ -14,6 +14,7 @@ async function bootstrap() {
   app.use('/css', expressStatic(join(__dirname, '..', 'node_modules/bootstrap/dist/css')))
   app.use('/js', expressStatic(join(__dirname, '..', 'node_modules/bootstrap/dist/js')))
   app.use('/js', expressStatic(join(__dirname, '..', 'node_modules/jquery/dist')))
+  app.use('/js', expressStatic(join(__dirname, '..', 'views/js')))
 
   app.useStaticAssets(join(__dirname, '..', 'public'));
   app.setBaseViewsDir(join(__dirname, '..', 'views'));
