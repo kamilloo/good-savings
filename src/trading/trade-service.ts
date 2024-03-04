@@ -10,7 +10,7 @@ import { EventType } from '../models/Enums/event.type';
 
 @Injectable()
 export class TradeService {
-  private coin = 'BCHUSDT';
+  private coin = 'BTCUSDT';
 
   private ticker: Ticker;
 
@@ -31,18 +31,20 @@ export class TradeService {
     this.trader = new Trader(new Quote(671, 0.04, this.candleRepository));
 
     this.exchangeService.on('ticker', (ticker) => {
-      this.trigger(ticker);
+      // this.trigger(ticker);
     });
 
     this.exchangeService
       .history(this.coin)
       .then((history: [string: Candle]) => {
         for (const time in history) {
-          const candle: Candle = history[time];
-          candle.time = +time;
-          candle.isFinal = true;
-          candle.isBullish = +candle.close - +candle.open > 0;
-          this.candleRepository.addCandle(candle);
+          if (+time > new Date(Date.now() - 2 * 60000).getTime()) {
+            const candle: Candle = history[time];
+            candle.time = +time;
+            candle.isFinal = true;
+            candle.isBullish = +candle.close - +candle.open > 0;
+            this.candleRepository.addCandle(candle);
+          }
         }
       });
 

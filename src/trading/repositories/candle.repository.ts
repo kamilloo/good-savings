@@ -32,12 +32,15 @@ export class CandleRepository {
         });
         this.candles[found] = candle;
         return false;
+      } else {
+        lastCandle.isFinal = true;
       }
     }
     this.candles.push(candle);
     if (this.candles.length > 500) {
       this.candles.shift();
     }
+    console.log(this.candles);
     return true;
   }
 
@@ -59,7 +62,7 @@ export class CandleRepository {
       close: close,
       volume: candlestick.k.v,
       time: time,
-      isFinal: candlestick.k.q,
+      isFinal: false,
       isBullish: +close - +open > 0,
     };
   }
