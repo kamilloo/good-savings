@@ -14,7 +14,18 @@ export class ExchangeService extends EventEmitter {
 
   init() {
     const Binance = require('node-binance-api');
-    this.binance = new Binance().options({});
+    this.binance = new Binance().options({
+      APIKEY: 'public',
+      APISECRET: 'secret',
+      family: 4,
+    });
+    const endpoints = this.binance.websockets.subscriptions();
+    setInterval(() => {
+      for (const endpoint in endpoints) {
+        console.log(endpoint);
+        //binance.websockets.terminate(endpoint);
+      }
+    }, 10000);
   }
 
   balances(): Promise<AccountBalance> {
