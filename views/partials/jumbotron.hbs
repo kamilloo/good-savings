@@ -3,5 +3,10 @@
       <h1 class="jumbotron-heading">{{ data.card }}</h1>
         <p class="lead text-muted">{{ data.message }}</p>
          <div id="chart"></div>
+         <div id="app">
+         <p v-html="message"></p>
+         <p v-html="changeMessage"></p>
+          <button v-on:click="changeOnClick">changeMessage</button>
+         </div>
     </div>
 </section>
