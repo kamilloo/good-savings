@@ -10,7 +10,7 @@ import { EventType } from '../models/Enums/event.type';
 
 @Injectable()
 export class TradeService {
-  private coin = 'BTCUSDT';
+  private coin = 'ETHUSDT';
 
   private ticker: Ticker;
 
@@ -43,6 +43,8 @@ export class TradeService {
             candle.time = +time;
             candle.isFinal = true;
             candle.isBullish = +candle.close - +candle.open > 0;
+            candle.symbol = this.coin;
+            candle.interval = '15m';
             this.candleRepository.addCandle(candle);
           }
         }

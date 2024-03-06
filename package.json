@@ -1,5 +1,5 @@
 {
-  "name": "crypto-keeper",
+  "name": "good-savings",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -59,7 +59,9 @@
     "ts-loader": "^8.0.18",
     "ts-node": "^9.1.1",
     "tsconfig-paths": "^3.9.0",
-    "typescript": "^4.2.3"
+    "tsup": "^8.0.2",
+    "tsx": "^4.7.1",
+    "typescript": "^4.9.5"
   },
   "jest": {
     "moduleFileExtensions": [

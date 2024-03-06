@@ -131,7 +131,7 @@ export class ExchangeService extends EventEmitter {
 
   candles(symbol: string): Promise<Candlestick[]> {
     return new Promise<Candlestick[]>((resolve) => {
-      this.binance.websockets.candlesticks(symbol, '1m', (candlesticks) => {
+      this.binance.websockets.candlesticks(symbol, '15m', (candlesticks) => {
         this.emit('candlesticks', candlesticks);
         resolve(candlesticks);
       });
@@ -140,9 +140,13 @@ export class ExchangeService extends EventEmitter {
 
   history(symbol: string): Promise<[string: Candle]> {
     return new Promise<[string: Candle]>((resolve) => {
-      this.binance.websockets.chart(symbol, '1m', (symbol, interval, chart) => {
-        resolve(chart);
-      });
+      this.binance.websockets.chart(
+        symbol,
+        '15m',
+        (symbol, interval, chart) => {
+          resolve(chart);
+        },
+      );
     });
   }
 }

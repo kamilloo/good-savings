@@ -8,6 +8,8 @@
      volume: '1161.52000000',
      isClosed: true,
      isBullish: true,
+    symbol: 'ETHUSDT',
+    interval: '15m'
  }
 
  */
@@ -20,4 +22,6 @@ export interface Candle {
   time: number;
   isFinal: boolean;
   isBullish: boolean;
+  symbol: string;
+  interval: string;
 }
