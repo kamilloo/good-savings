@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import {ExchangeService} from "../exchange/exchange.service";
-import {CoinBalanceDto} from "../Dto/CoinBalanceDto";
+import {CoinBalanceDto} from "../dto/CoinBalanceDto";
 import {AccountBalance} from "../models/AccountBalance";
 import {CoinBalance} from "../models/coin.balance";
 
@@ -8,7 +8,6 @@ import {CoinBalance} from "../models/coin.balance";
 export class BalanceService {
     constructor(private readonly exchangeService:ExchangeService) {
     }
-    // get():Promise<{ data: CoinBalanceDto[] }> {
     get():Promise<any> {
         this.exchangeService.init();
 
@@ -26,6 +25,9 @@ export class BalanceService {
                 }
             }
             return accountBalance;
+        }).catch(error =>{
+            console.log(error.message)
+            return [];
         })
     }
 }

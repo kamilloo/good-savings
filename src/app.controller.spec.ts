@@ -1,4 +1,4 @@
-import { Test, TestingModule } from '@nestjs/testin.close = 100;g';
+import { Test, TestingModule } from '@nestjs/testing';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 

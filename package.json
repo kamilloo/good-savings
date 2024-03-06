@@ -1,5 +1,5 @@
 {
-  "name": "crypto-keeper",
+  "name": "good-savings",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -24,11 +24,17 @@
     "@nestjs/common": "^7.6.15",
     "@nestjs/core": "^7.6.15",
     "@nestjs/platform-express": "^7.6.15",
+    "axios": "^0.21.1",
+    "boostrap": "^2.0.0",
     "bootstrap": "^4.6.0",
+    "discord.js": "^14.14.1",
     "express-handlebars": "^5.3.0",
     "hbs": "^4.1.1",
+    "holderjs": "^2.9.9",
     "jquery": "^3.6.0",
+    "lightweight-charts": "^3.3.0",
     "node-binance-api": "^0.12.5",
+    "popper": "^1.0.1",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^6.6.6"
@@ -53,7 +59,9 @@
     "ts-loader": "^8.0.18",
     "ts-node": "^9.1.1",
     "tsconfig-paths": "^3.9.0",
-    "typescript": "^4.2.3"
+    "tsup": "^8.0.2",
+    "tsx": "^4.7.1",
+    "typescript": "^4.9.5"
   },
   "jest": {
     "moduleFileExtensions": [

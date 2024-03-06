@@ -9,7 +9,8 @@ export class BalanceController {
     @Get()
     root(@Res() res: Response) {
 
-        this.balanceService.get().then(balances => {
+        this.balanceService.
+        get().then(balances => {
             res.render('balances/index', {data: balances});
         })
 
