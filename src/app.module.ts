@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { BalanceController } from './balance/balance.controller';
@@ -14,7 +15,7 @@ import { TradeService } from './trades/trade.service';
 import { BotService } from './bot/BotService';
 
 @Module({
-  imports: [TradingModule],
+  imports: [TradingModule, ConfigModule.forRoot()],
   controllers: [
     AppController,
     BalanceController,
