@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { EventEmitter } from 'events';
 import { Signal } from '../models/Signal';
+import * as process from 'process';
 
 @Injectable()
 export class BotService {
@@ -11,8 +12,7 @@ export class BotService {
   init() {
     this.notifier = require('../events/SignalEmitter');
 
-    const token = 'token';
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const token = process.env.DISCORD_BOT_TOKEN;
 
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     const discord = require('discord.js');

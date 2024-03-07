@@ -7,6 +7,7 @@ import { Order } from '../models/order';
 import { Trade } from '../models/trade';
 import { Candle } from '../models/candle';
 import { Candlestick } from '../models/candlestick';
+import * as process from 'process';
 
 @Injectable()
 export class ExchangeService extends EventEmitter {
@@ -15,8 +16,8 @@ export class ExchangeService extends EventEmitter {
   init() {
     const Binance = require('node-binance-api');
     this.binance = new Binance().options({
-      APIKEY: 'public',
-      APISECRET: 'secret',
+      APIKEY: process.env.EXCHANGE_APIKEY,
+      APISECRET: process.env.EXCHANGE_APISECRET,
       family: 4,
     });
     const endpoints = this.binance.websockets.subscriptions();
