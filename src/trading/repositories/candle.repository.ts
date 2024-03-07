@@ -48,18 +48,29 @@ export class CandleRepository {
         return false;
       } else {
         lastCandle.isFinal = true;
+        const firstCandle: Candle | null = this.getFirst();
         if (
-          this.getFirst() &&
-          this.getFirst().isFinal &&
-          this.getFirst().time < lastCandle.time &&
+          firstCandle &&
+          firstCandle.isFinal &&
+          firstCandle.time < lastCandle.time &&
           lastCandle.isBullish &&
-          +lastCandle.volume > 3 * +this.getFirst().volume
+          +lastCandle.volume > 3 * +firstCandle.volume
         ) {
+          firstCandle;
+          const rawFirstCandle = JSON.stringify(firstCandle);
+          const rawLastCandle = JSON.stringify(lastCandle);
+          const debug =
+            'first candle: ' +
+            rawFirstCandle +
+            '/' +
+            'second candle' +
+            rawLastCandle;
           this.notifier.emit('signal', {
+            debug: debug,
             coin: lastCandle.symbol,
             interval: lastCandle.interval,
             factor:
-              Math.round((+lastCandle.volume / +this.getFirst().volume) * 100) /
+              Math.round((+lastCandle.volume / +firstCandle.volume) * 100) /
               100,
           } as Signal);
         }
@@ -69,7 +80,6 @@ export class CandleRepository {
     if (this.candles.length > 3) {
       this.candles.shift();
     }
-    console.log(this.candles);
     return true;
   }
 

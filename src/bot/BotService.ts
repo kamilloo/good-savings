@@ -7,7 +7,7 @@ import * as process from 'process';
 export class BotService {
   private notifier: EventEmitter;
   constructor() {
-    this.init();
+    // this.init();
   }
   init() {
     this.notifier = require('../events/SignalEmitter');
@@ -28,14 +28,32 @@ export class BotService {
         // setTimeout(() => channel.send('BTCUSDT/1h/x3'), 10000); //m15,m30,h1, pierwsza buy/sell -> druga buy
       });
     });
+    https: this.notifier.on('signal', (signal: Signal) => {
+      client.channels
+        .fetch(process.env.DISCORD_DEBUG_CHANNEL)
+        .then((channel) => {
+          const message =
+            signal.coin +
+            '/' +
+            signal.interval +
+            '/' +
+            'x' +
+            signal.factor +
+            '(' +
+            signal.debug +
+            ')';
+          console.log(message);
+          channel.send(message); //m15,m30,h1, pierwsza buy/sell -> druga buy
+        });
 
-    this.notifier.on('signal', (signal: Signal) => {
-      client.channels.fetch('1214683014282354721').then((channel) => {
-        const message =
-          signal.coin + '/' + signal.interval + '/' + 'x' + signal.factor;
-        console.log(message);
-        channel.send(message); //m15,m30,h1, pierwsza buy/sell -> druga buy
-      });
+      client.channels
+        .fetch(process.env.DISCORD_GENERAL_CHANNEL)
+        .then((channel) => {
+          const message =
+            signal.coin + '/' + signal.interval + '/' + 'x' + signal.factor;
+          console.log(message);
+          channel.send(message); //m15,m30,h1, pierwsza buy/sell -> druga buy
+        });
     });
 
     client.login(token);
