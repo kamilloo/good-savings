@@ -7,7 +7,7 @@ import * as process from 'process';
 export class BotService {
   private notifier: EventEmitter;
   constructor() {
-    // this.init();
+    this.init();
   }
   init() {
     this.notifier = require('../events/SignalEmitter');
