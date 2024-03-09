@@ -28,7 +28,8 @@ export class BotService {
         // setTimeout(() => channel.send('BTCUSDT/1h/x3'), 10000); //m15,m30,h1, pierwsza buy/sell -> druga buy
       });
     });
-    https: this.notifier.on('signal', (signal: Signal) => {
+
+    this.notifier.on('signal', (signal: Signal) => {
       client.channels
         .fetch(process.env.DISCORD_DEBUG_CHANNEL)
         .then((channel) => {

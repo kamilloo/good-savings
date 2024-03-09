@@ -9,7 +9,7 @@ import { EventEmitter } from 'events';
 export class CandleRepository {
   private candles: Candle[] = [];
 
-  private interval = 60;
+  private interval = 60 * 15;
   private notifier: EventEmitter;
 
   constructor() {
@@ -30,8 +30,8 @@ export class CandleRepository {
 
   getFirst(): Candle | null {
     const length = this.candles.length;
-    if (length > 0) {
-      return this.candles[0];
+    if (length > 1) {
+      return this.candles[length - 2];
     }
     return null;
   }
