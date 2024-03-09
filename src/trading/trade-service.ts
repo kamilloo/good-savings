@@ -147,7 +147,6 @@ export class TradeService {
     if (this.candleRepository.length(candle) > 3) {
       this.candleRepository.pop(candle);
     }
-    console.log(this.candleRepository.get());
     return true;
   }
 }
