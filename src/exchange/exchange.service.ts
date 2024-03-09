@@ -8,16 +8,17 @@ import { Trade } from '../models/trade';
 import { Candle } from '../models/candle';
 import { Candlestick } from '../models/candlestick';
 import * as process from 'process';
+import { CoinPair } from '../models/CoinPair';
+import { IntervalType } from '../models/Enums/interval.type';
 
 @Injectable()
 export class ExchangeService extends EventEmitter {
   private binance: Binance;
 
   init() {
+    console.log('binance exchange service');
     const Binance = require('node-binance-api');
     this.binance = new Binance().options({
-      APIKEY: process.env.EXCHANGE_APIKEY,
-      APISECRET: process.env.EXCHANGE_APISECRET,
       family: 4,
     });
     const endpoints = this.binance.websockets.subscriptions();
@@ -130,12 +131,19 @@ export class ExchangeService extends EventEmitter {
     });
   }
 
-  candles(symbol: string): Promise<Candlestick[]> {
+  candles(coinPairs: CoinPair[]): Promise<Candlestick[]> {
     return new Promise<Candlestick[]>((resolve) => {
-      this.binance.websockets.candlesticks(symbol, '15m', (candlesticks) => {
-        this.emit('candlesticks', candlesticks);
-        resolve(candlesticks);
-      });
+      const pairs = coinPairs.map<string>(
+        (coinPairs: CoinPair) => coinPairs.name,
+      );
+      this.binance.websockets.candlesticks(
+        pairs,
+        IntervalType.FIFTEEN_MINUTE,
+        (candlesticks) => {
+          this.emit('candlesticks', candlesticks);
+          resolve(candlesticks);
+        },
+      );
     });
   }
 
