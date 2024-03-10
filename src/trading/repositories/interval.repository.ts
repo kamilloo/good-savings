@@ -5,7 +5,7 @@ import { IntervalType } from '../../models/Enums/interval.type';
 @Injectable()
 export class IntervalRepository {
   private resource: Interval[] = [
-    { type: IntervalType.ONE_MINUTE, length_ms: 60 * 1 * 1000 } as Interval,
+    // { type: IntervalType.ONE_MINUTE, length_ms: 60 * 1 * 1000 } as Interval,
     {
       type: IntervalType.FIFTEEN_MINUTE,
       length_ms: 60 * 15 * 1000,
