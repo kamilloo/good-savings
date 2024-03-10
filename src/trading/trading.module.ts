@@ -3,6 +3,7 @@ import { TradeService } from './trade-service';
 import { ExchangeService } from '../exchange/exchange.service';
 import { CandleRepository } from './repositories/candle.repository';
 import { CoinPairRepository } from './repositories/CoinPair.repository';
+import { IntervalRepository } from './repositories/interval.repository';
 
 @Module({
   providers: [
@@ -10,6 +11,7 @@ import { CoinPairRepository } from './repositories/CoinPair.repository';
     ExchangeService,
     CandleRepository,
     CoinPairRepository,
+    IntervalRepository,
   ],
 })
 export class TradingModule {}

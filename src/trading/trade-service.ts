@@ -12,6 +12,7 @@ import { CoinPair } from '../models/CoinPair';
 import { IntervalType } from '../models/Enums/interval.type';
 import { Signal } from '../models/Signal';
 import { EventEmitter } from 'events';
+import { IntervalRepository } from './repositories/interval.repository';
 
 @Injectable()
 export class TradeService {
@@ -27,6 +28,7 @@ export class TradeService {
     private readonly exchangeService: ExchangeService,
     private readonly candleRepository: CandleRepository,
     private readonly coinPairRepository: CoinPairRepository,
+    private readonly intervalRepository: IntervalRepository,
   ) {
     this.notifier = require('../events/SignalEmitter');
 
@@ -37,8 +39,16 @@ export class TradeService {
 
   // initial(trader:Trader){
   initial() {
+    this.candleRepository.init(
+      this.coinPairRepository.getall(),
+      this.intervalRepository.getall(),
+    );
+
     this.exchangeService
-      .candles(this.coinPairRepository.getall())
+      .candles(
+        this.coinPairRepository.getall(),
+        this.intervalRepository.getall(),
+      )
       .then((candlestick) => {
         console.log(candlestick);
       });
@@ -76,9 +86,11 @@ export class TradeService {
   }
 
   private transformToCandle(candlestick: Candlestick): Candle {
-    const interval = 60 * 15 * 1000;
-    const factor = Math.floor(+candlestick.E / interval);
-    const time = factor * interval;
+    const interval_type = candlestick.k.i;
+    const interval = this.intervalRepository.getByType(interval_type);
+    const interval_length_ms = interval.length_ms;
+    const factor = Math.floor(+candlestick.E / interval_length_ms);
+    const time = factor * interval_length_ms;
     const open = candlestick.k.o;
     const close = candlestick.k.c;
     return <Candle>{
@@ -109,7 +121,6 @@ export class TradeService {
       if (lastCandle.time == candle.time) {
         this.candleRepository.pop(candle);
       } else if (lastCandle.time > candle.time) {
-        this.candleRepository.getCandle(candle);
         return false;
       } else {
         lastCandle.isFinal = true;

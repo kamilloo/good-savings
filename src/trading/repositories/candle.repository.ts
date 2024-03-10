@@ -1,68 +1,76 @@
 import { Injectable } from '@nestjs/common';
 import { Candle } from '../../models/candle';
+import { CoinPair } from '../../models/CoinPair';
+import { Interval } from '../../models/Interval';
+
+interface candles {
+  [key: string]: Candle[];
+}
 
 @Injectable()
 export class CandleRepository {
-  private candles: Candle[] = [];
+  private candles: candles = {};
+
+  init(coinPairs: CoinPair[], intervals: Interval[]): void {
+    coinPairs.forEach((coinPair: CoinPair) => {
+      intervals.forEach(
+        (i: Interval) => (this.candles[coinPair.name + '_' + i.type] = []),
+      );
+    });
+  }
 
   get(): Candle[] {
-    return this.candles;
+    return this.candles[0];
   }
 
   getLast(candle: Candle): Candle | null {
-    const filtered = this.candles.filter(
-      (iter: Candle) => iter.symbol == candle.symbol,
-    );
-    const length = filtered.length;
+    const candles = this.candles[this.parseKey(candle)];
+    const length = candles.length;
     if (length > 0) {
-      return this.candles[length - 1];
+      return candles[length - 1];
     }
     return null;
+  }
+
+  private parseKey(candle: Candle): string {
+    return (candle.symbol + '_' + candle.interval).toLowerCase();
   }
 
   getFirst(candle: Candle): Candle | null {
-    const filtered = this.candles.filter(
-      (iter: Candle) => iter.symbol == candle.symbol,
-    );
-    const length = filtered.length;
+    const candles = this.candles[this.parseKey(candle)];
+    const length = candles.length;
     if (length > 1) {
-      return this.candles[length - 2];
+      return candles[length - 2];
     }
     return null;
   }
 
-  getCandle(candle: Candle): void {
-    const found = this.find(candle);
-    if (found > -1) {
-      this.candles[found] = candle;
-    }
+  getCandles(candle: Candle): Candle[] {
+    return this.candles[this.parseKey(candle)];
   }
 
-  private find(candle: Candle) {
-    const found = this.candles.findIndex((cachedCandle, index, candles) => {
-      return (
-        cachedCandle.time == candle.time && cachedCandle.symbol == candle.symbol
-      );
-    });
-    return found;
+  private find(candles: Candle[], candle: Candle) {
+    return candles.findIndex(
+      (iter, index, candles) => iter.time == candle.time,
+    );
   }
 
   pop(candle: Candle) {
     // this.candles.pop();
-    const found = this.find(candle);
+    const candles = this.candles[this.parseKey(candle)];
+    const found = this.find(candles, candle);
     if (found > -1) {
-      this.candles.splice(found, 1);
+      candles.splice(found, 1);
     }
   }
 
   push(candle: Candle) {
-    this.candles.push(candle);
+    const candles = this.candles[this.parseKey(candle)];
+    candles.push(candle);
   }
 
   length(candle: Candle): number {
-    const filtered = this.candles.filter(
-      (iter: Candle) => iter.symbol == candle.symbol,
-    );
-    return filtered.length;
+    const candles = this.candles[this.parseKey(candle)];
+    return candles.length;
   }
 }

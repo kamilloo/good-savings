@@ -10,6 +10,7 @@ import { Candlestick } from '../models/candlestick';
 import * as process from 'process';
 import { CoinPair } from '../models/CoinPair';
 import { IntervalType } from '../models/Enums/interval.type';
+import { Interval } from '../models/Interval';
 
 @Injectable()
 export class ExchangeService extends EventEmitter {
@@ -131,19 +132,24 @@ export class ExchangeService extends EventEmitter {
     });
   }
 
-  candles(coinPairs: CoinPair[]): Promise<Candlestick[]> {
+  candles(
+    coinPairs: CoinPair[],
+    intervals: Interval[],
+  ): Promise<Candlestick[]> {
     return new Promise<Candlestick[]>((resolve) => {
       const pairs = coinPairs.map<string>(
         (coinPairs: CoinPair) => coinPairs.name,
       );
-      this.binance.websockets.candlesticks(
-        pairs,
-        IntervalType.FIFTEEN_MINUTE,
-        (candlesticks) => {
-          this.emit('candlesticks', candlesticks);
-          resolve(candlesticks);
-        },
-      );
+      intervals.forEach((interval: Interval) => {
+        this.binance.websockets.candlesticks(
+          pairs,
+          interval.type,
+          (candlesticks) => {
+            this.emit('candlesticks', candlesticks);
+            resolve(candlesticks);
+          },
+        );
+      });
     });
   }
 
