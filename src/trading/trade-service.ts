@@ -156,7 +156,7 @@ export class TradeService {
 
     this.candleRepository.push(candle);
     if (this.candleRepository.length(candle) > 3) {
-      this.candleRepository.pop(candle);
+      this.candleRepository.shift(candle);
     }
     return true;
   }

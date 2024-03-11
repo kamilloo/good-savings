@@ -49,19 +49,9 @@ export class CandleRepository {
     return this.candles[this.parseKey(candle)];
   }
 
-  private find(candles: Candle[], candle: Candle) {
-    return candles.findIndex(
-      (iter, index, candles) => iter.time == candle.time,
-    );
-  }
-
   pop(candle: Candle) {
-    // this.candles.pop();
     const candles = this.candles[this.parseKey(candle)];
-    const found = this.find(candles, candle);
-    if (found > -1) {
-      candles.splice(found, 1);
-    }
+    candles.pop();
   }
 
   push(candle: Candle) {
@@ -72,5 +62,10 @@ export class CandleRepository {
   length(candle: Candle): number {
     const candles = this.candles[this.parseKey(candle)];
     return candles.length;
+  }
+
+  shift(candle: Candle) {
+    const candles = this.candles[this.parseKey(candle)];
+    candles.shift();
   }
 }
